@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Shield, Zap, House, ChevronRight, ExternalLink, CheckCircle } from 'lucide-react';
+import { Shield, Zap, House, ExternalLink, CheckCircle, Volume2, VolumeX } from 'lucide-react';
 import { useHardieChat } from '@/hooks/useHardieChat';
 import { AnimatedAvatar } from '@/components/avatar/AnimatedAvatar';
 import { ChatPanel } from '@/components/chat/ChatPanel';
@@ -65,7 +65,15 @@ const CALLOUTS = [
 ];
 
 /* ─── Nav ─── */
-function TopNav() {
+function TopNav({
+  ttsAvailable, audioUnlocked, isSpeaking, isLoading, enableVoice,
+}: {
+  ttsAvailable: boolean;
+  audioUnlocked: boolean;
+  isSpeaking: boolean;
+  isLoading: boolean;
+  enableVoice: () => void;
+}) {
   return (
     <header className="flex-shrink-0 bg-white border-b border-gray-200 z-50">
       <div className="px-6 py-3.5 flex items-center justify-between">
@@ -88,10 +96,28 @@ function TopNav() {
           ))}
         </nav>
 
-        {/* CTA */}
-        <button className="hidden sm:block border border-brand-text text-brand-text text-sm font-semibold px-4 py-2 rounded hover:bg-brand-text hover:text-white transition-colors whitespace-nowrap">
-          Get a quote
-        </button>
+        {/* Voice toggle + Get a quote */}
+        <div className="flex items-center gap-2">
+          {ttsAvailable && (
+            <button
+              onClick={enableVoice}
+              title={audioUnlocked ? 'Voice enabled' : 'Click to enable Hardie\'s voice'}
+              className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded border transition-colors ${
+                audioUnlocked
+                  ? 'border-brand-green text-brand-green bg-brand-green-lt'
+                  : 'border-amber-400 text-amber-600 bg-amber-50 hover:bg-amber-100 animate-pulse'
+              }`}
+            >
+              {audioUnlocked
+                ? <><Volume2 className="w-3.5 h-3.5" /> {isSpeaking ? 'Speaking…' : isLoading ? 'Thinking…' : 'Voice on'}</>
+                : <><VolumeX className="w-3.5 h-3.5" /> Enable voice</>
+              }
+            </button>
+          )}
+          <button className="hidden sm:block border border-brand-text text-brand-text text-sm font-semibold px-4 py-2 rounded hover:bg-brand-text hover:text-white transition-colors whitespace-nowrap">
+            Get a quote
+          </button>
+        </div>
       </div>
     </header>
   );
@@ -363,7 +389,13 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white overflow-y-auto">
-      <TopNav />
+      <TopNav
+        ttsAvailable={chatProps.ttsAvailable}
+        audioUnlocked={chatProps.audioUnlocked}
+        isSpeaking={chatProps.isSpeaking}
+        isLoading={chatProps.isLoading}
+        enableVoice={chatProps.enableVoice}
+      />
       <HeroSection />
       <PortfolioIntro />
       <BrandCards />
