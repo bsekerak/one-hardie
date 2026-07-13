@@ -36,7 +36,8 @@ export function ChatInput({ input, handleInputChange, handleSubmit, isLoading, o
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-end gap-2 px-4 py-3 border-t border-brand-border bg-white"
+      className="flex items-end gap-2 px-4 py-3"
+      style={{ borderTop: '1px solid #2C2A28', background: '#111111' }}
     >
       {isSupported !== false && (
         <button
@@ -44,10 +45,9 @@ export function ChatInput({ input, handleInputChange, handleSubmit, isLoading, o
           onClick={isListening ? stopListening : startListening}
           className={clsx(
             'flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-colors border',
-            isListening
-              ? 'bg-red-50 text-red-500 border-red-200 animate-pulse'
-              : 'bg-brand-surface text-brand-muted hover:text-brand-green border-brand-border',
+            isListening ? 'border-red-500/40 text-red-400 animate-pulse' : 'text-[#6B5E52] hover:text-[#C49A3C]',
           )}
+          style={isListening ? { background: 'rgba(239,68,68,0.1)' } : { background: '#1C1C1C', borderColor: '#2C2A28' }}
           aria-label={isListening ? 'Stop' : 'Voice input'}
         >
           {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
@@ -63,25 +63,24 @@ export function ChatInput({ input, handleInputChange, handleSubmit, isLoading, o
           placeholder={isListening ? 'Listening…' : 'Ask about siding, decking, pergolas…'}
           rows={1}
           disabled={isLoading}
-          className={clsx(
-            'w-full resize-none rounded-xl px-4 py-2.5 text-sm',
-            'bg-brand-bg-soft border border-brand-border',
-            'text-brand-text placeholder:text-brand-faint',
-            'focus:outline-none focus:border-brand-green focus:shadow-input',
-            'disabled:opacity-50 transition-all leading-relaxed',
-          )}
-          style={{ minHeight: 42, maxHeight: 120 }}
+          className="w-full resize-none rounded-xl px-4 py-2.5 text-sm leading-relaxed disabled:opacity-50 transition-all focus:outline-none"
+          style={{
+            background: '#1C1C1C',
+            border: '1px solid #2C2A28',
+            color: '#F5F0E8',
+            minHeight: 42,
+            maxHeight: 120,
+          }}
+          onFocus={(e) => (e.currentTarget.style.borderColor = '#C49A3C')}
+          onBlur={(e) => (e.currentTarget.style.borderColor = '#2C2A28')}
         />
       </div>
 
       <button
         type="submit"
         disabled={isLoading || !input.trim()}
-        className={clsx(
-          'flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center',
-          'bg-brand-green text-white hover:bg-brand-green-dk',
-          'disabled:opacity-40 disabled:cursor-not-allowed transition-colors',
-        )}
+        className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        style={{ background: '#C49A3C', color: '#111111' }}
         aria-label="Send"
       >
         {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}

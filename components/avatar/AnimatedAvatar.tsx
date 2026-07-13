@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx } from 'clsx';
 
@@ -9,28 +10,40 @@ interface AnimatedAvatarProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
+// Photorealistic professional woman — AI-generated portrait (no real person)
+// Swap AVATAR_URL to any publicly hosted square headshot to update the look.
+const AVATAR_URL =
+  'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=faces&auto=format&q=80';
+
 const sizeMap = {
-  sm: { outer: 44,  ring: 52  },
-  md: { outer: 90,  ring: 108 },
-  lg: { outer: 160, ring: 196 },
+  sm: { px: 44,  ring: 56  },
+  md: { px: 96,  ring: 120 },
+  lg: { px: 180, ring: 220 },
 };
 
 export function AnimatedAvatar({ isSpeaking, isThinking, size = 'lg' }: AnimatedAvatarProps) {
-  const { outer, ring } = sizeMap[size];
+  const { px, ring } = sizeMap[size];
 
   return (
-    <div className="relative flex items-center justify-center" style={{ width: ring, height: ring }}>
-      {/* Speaking pulse rings */}
+    <div
+      className="relative flex items-center justify-center flex-shrink-0"
+      style={{ width: ring, height: ring }}
+    >
+      {/* Gold ambient glow when speaking */}
       <AnimatePresence>
-        {isSpeaking && [0, 0.45, 0.9].map((delay) => (
+        {isSpeaking && [0, 0.5, 1].map((delay) => (
           <motion.div
             key={delay}
-            className="absolute rounded-full border-2 border-brand-green/25"
-            style={{ width: outer, height: outer }}
-            initial={{ scale: 1, opacity: 0.6 }}
-            animate={{ scale: 2, opacity: 0 }}
+            className="absolute rounded-full"
+            style={{
+              width: px,
+              height: px,
+              border: '2px solid rgba(196,154,60,0.4)',
+            }}
+            initial={{ scale: 1, opacity: 0.7 }}
+            animate={{ scale: 2.1, opacity: 0 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.8, delay, repeat: Infinity, ease: 'easeOut' }}
+            transition={{ duration: 2, delay, repeat: Infinity, ease: 'easeOut' }}
           />
         ))}
       </AnimatePresence>
@@ -38,137 +51,89 @@ export function AnimatedAvatar({ isSpeaking, isThinking, size = 'lg' }: Animated
       {/* Thinking spinner */}
       {isThinking && !isSpeaking && (
         <motion.div
-          className="absolute rounded-full border-2 border-brand-green/15 border-t-brand-green"
-          style={{ width: outer + 10, height: outer + 10 }}
+          className="absolute rounded-full border-2 border-[#C49A3C]/20 border-t-[#C49A3C]"
+          style={{ width: px + 12, height: px + 12 }}
           animate={{ rotate: 360 }}
-          transition={{ duration: 1.1, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
         />
       )}
 
-      {/* Avatar disc */}
+      {/* Outer gold ring */}
       <motion.div
-        className={clsx(
-          'relative rounded-full overflow-hidden flex items-center justify-center select-none',
-          size !== 'sm' && 'shadow-avatar',
-          size === 'sm' && 'shadow-card',
-        )}
+        className="relative rounded-full overflow-hidden"
         style={{
-          width: outer,
-          height: outer,
-          background: 'radial-gradient(circle at 38% 32%, #3A2C1A 0%, #1E1508 55%, #0E0A04 100%)',
-          border: '2px solid rgba(196,154,60,0.35)',
+          width: px,
+          height: px,
+          padding: size === 'sm' ? 2 : 3,
+          background: 'linear-gradient(135deg, #C49A3C, #E8C56A, #8B6914)',
+          boxShadow: size !== 'sm'
+            ? '0 8px 32px rgba(0,0,0,0.35), 0 2px 8px rgba(196,154,60,0.3)'
+            : undefined,
         }}
         animate={
           isSpeaking
-            ? { scale: [1, 1.025, 1, 1.015, 1] }
-            : { scale: [1, 1.012, 1] }
+            ? { scale: [1, 1.025, 1, 1.018, 1] }
+            : { scale: [1, 1.01, 1] }
         }
         transition={
           isSpeaking
-            ? { duration: 0.4, repeat: Infinity, ease: 'easeInOut' }
-            : { duration: 4,   repeat: Infinity, ease: 'easeInOut' }
+            ? { duration: 0.45, repeat: Infinity, ease: 'easeInOut' }
+            : { duration: 4.5, repeat: Infinity, ease: 'easeInOut' }
         }
       >
-        {/* Gold sheen */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(circle at 30% 25%, rgba(196,154,60,0.12) 0%, transparent 60%)',
-          }}
-        />
-
-        {/* Face SVG */}
-        <div className="relative z-10 flex flex-col items-center gap-1.5">
-          <FaceSVG size={size} isSpeaking={isSpeaking} />
-          {size === 'lg' && <SoundWave isSpeaking={isSpeaking} />}
+        {/* Photo circle */}
+        <div className="w-full h-full rounded-full overflow-hidden relative">
+          <Image
+            src={AVATAR_URL}
+            alt="Hardie, One Hardie Exterior Concierge"
+            fill
+            className="object-cover object-top"
+            sizes={`${px}px`}
+            priority={size === 'lg'}
+          />
+          {/* Subtle speaking overlay pulse */}
+          <AnimatePresence>
+            {isSpeaking && (
+              <motion.div
+                className="absolute inset-0 rounded-full"
+                style={{ background: 'rgba(196,154,60,0.08)' }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 0.3, 0] }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6, repeat: Infinity }}
+              />
+            )}
+          </AnimatePresence>
         </div>
       </motion.div>
+
+      {/* Sound wave bar — below avatar, large size only */}
+      {size === 'lg' && (
+        <div className="absolute -bottom-5 left-1/2 -translate-x-1/2">
+          <SoundWave isSpeaking={isSpeaking} />
+        </div>
+      )}
     </div>
   );
 }
 
-function FaceSVG({ size, isSpeaking }: { size: 'sm' | 'md' | 'lg'; isSpeaking: boolean }) {
-  const dim = size === 'lg' ? 80 : size === 'md' ? 44 : 22;
-
-  return (
-    <svg
-      width={dim}
-      height={dim}
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Head shape */}
-      <ellipse cx="40" cy="38" rx="26" ry="28" fill="#C49A3C" opacity="0.18" />
-
-      {/* Hair */}
-      <ellipse cx="40" cy="14" rx="24" ry="10" fill="#C49A3C" opacity="0.55" />
-      <rect x="16" y="14" width="8" height="16" rx="4" fill="#C49A3C" opacity="0.55" />
-      <rect x="56" y="14" width="8" height="16" rx="4" fill="#C49A3C" opacity="0.55" />
-
-      {/* Face */}
-      <ellipse cx="40" cy="40" rx="22" ry="24" fill="#D4A96A" />
-
-      {/* Forehead shadow */}
-      <ellipse cx="40" cy="24" rx="18" ry="8" fill="#C49A3C" opacity="0.2" />
-
-      {/* Eyes */}
-      <ellipse cx="31" cy="36" rx="4" ry="4.5" fill="#1A1208" />
-      <ellipse cx="49" cy="36" rx="4" ry="4.5" fill="#1A1208" />
-      {/* Eye shine */}
-      <circle cx="33" cy="34.5" r="1.2" fill="white" opacity="0.7" />
-      <circle cx="51" cy="34.5" r="1.2" fill="white" opacity="0.7" />
-
-      {/* Eyebrows */}
-      <path d="M26 30.5 Q31 28 36 30" stroke="#8B6030" strokeWidth="1.8" strokeLinecap="round" fill="none" />
-      <path d="M44 30 Q49 28 54 30.5" stroke="#8B6030" strokeWidth="1.8" strokeLinecap="round" fill="none" />
-
-      {/* Nose */}
-      <path d="M40 40 L37 47 Q40 49 43 47 Z" fill="#C49A3C" opacity="0.4" />
-
-      {/* Mouth — open wider when speaking */}
-      {isSpeaking ? (
-        <>
-          {/* Open mouth */}
-          <ellipse cx="40" cy="53" rx="7" ry="4" fill="#7A3010" />
-          <path d="M33 53 Q40 50 47 53" stroke="#C49A3C" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-          <ellipse cx="40" cy="55" rx="5" ry="2.5" fill="#5A1A08" />
-          {/* Teeth */}
-          <rect x="35" y="51" width="10" height="3" rx="1.5" fill="white" opacity="0.85" />
-        </>
-      ) : (
-        /* Closed smile */
-        <path d="M33 52 Q40 58 47 52" stroke="#8B4020" strokeWidth="2" strokeLinecap="round" fill="none" />
-      )}
-
-      {/* Cheek blush */}
-      <ellipse cx="26" cy="46" rx="5" ry="3" fill="#E88080" opacity="0.18" />
-      <ellipse cx="54" cy="46" rx="5" ry="3" fill="#E88080" opacity="0.18" />
-
-      {/* Collar / shirt hint */}
-      <path d="M18 68 Q24 60 40 64 Q56 60 62 68" fill="#2D6A2D" opacity="0.7" />
-      <path d="M36 64 L40 70 L44 64" fill="#1B4D1B" opacity="0.7" />
-    </svg>
-  );
-}
-
 function SoundWave({ isSpeaking }: { isSpeaking: boolean }) {
-  const bars = [3, 5, 8, 5, 3, 7, 4, 6, 3, 5];
+  const bars = [3, 5, 9, 6, 3, 8, 4, 7, 3, 6];
   return (
-    <div className="flex items-center gap-[2px] h-4">
+    <div className="flex items-center gap-[3px] h-5">
       {bars.map((h, i) => (
         <motion.div
           key={i}
-          className="w-[2px] rounded-full bg-[#C49A3C]/60"
+          className="w-[2.5px] rounded-full bg-[#C49A3C]"
           animate={
             isSpeaking
-              ? { height: [h, h * 2.8, h], opacity: [0.5, 1, 0.5] }
+              ? { height: [h, h * 3, h], opacity: [0.5, 1, 0.5] }
               : { height: 2, opacity: 0.2 }
           }
           transition={
             isSpeaking
-              ? { duration: 0.45 + i * 0.03, delay: i * 0.05, repeat: Infinity, ease: 'easeInOut' }
-              : { duration: 0.3 }
+              ? { duration: 0.4 + i * 0.025, delay: i * 0.04, repeat: Infinity, ease: 'easeInOut' }
+              : { duration: 0.4 }
           }
           style={{ height: h }}
         />

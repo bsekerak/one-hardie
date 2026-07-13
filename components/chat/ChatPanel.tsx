@@ -30,12 +30,13 @@ export function ChatPanel({ messages, input, handleInputChange, handleSubmit, is
 
   return (
     <div className="flex flex-col flex-1 overflow-hidden">
-      <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4 bg-white">
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4" style={{ background: '#181818' }}>
         {messages.map((m) => <ChatMessage key={m.id} message={m} />)}
 
         {isLoading && (
           <div className="flex items-start">
-            <div className="bg-brand-surface border border-brand-border-lt rounded-2xl rounded-bl-sm px-4 py-3">
+            <div className="rounded-2xl rounded-bl-sm px-4 py-3" style={{ background: '#222', border: '1px solid #2C2A28' }}>
               <ThinkingDots />
             </div>
           </div>
@@ -43,15 +44,18 @@ export function ChatPanel({ messages, input, handleInputChange, handleSubmit, is
         <div ref={bottomRef} />
       </div>
 
-      {/* Quick prompt chips — shown before first user message */}
+      {/* Quick-prompt chips */}
       {messages.filter((m) => m.role === 'user').length === 0 && (
-        <div className="px-5 pb-3 flex gap-2 flex-wrap border-t border-brand-border-lt bg-white pt-3">
+        <div className="px-5 pb-3 pt-3 flex gap-2 flex-wrap" style={{ borderTop: '1px solid #2C2A28', background: '#181818' }}>
           {QUICK_PROMPTS.map((p) => (
             <button
               key={p}
               onClick={() => append({ role: 'user', content: p })}
               disabled={isLoading}
-              className="text-xs px-3 py-1.5 rounded-full border border-brand-green/30 text-brand-green hover:bg-brand-green-lt font-medium transition-colors disabled:opacity-40"
+              className="text-xs px-3 py-1.5 rounded-full font-medium transition-colors disabled:opacity-40"
+              style={{ border: '1px solid rgba(196,154,60,0.3)', color: '#C49A3C' }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(196,154,60,0.1)')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
             >
               {p}
             </button>
@@ -76,8 +80,8 @@ function ThinkingDots() {
       {[0, 0.2, 0.4].map((d) => (
         <span
           key={d}
-          className="w-1.5 h-1.5 rounded-full bg-brand-green/40 animate-bounce"
-          style={{ animationDelay: `${d}s` }}
+          className="w-1.5 h-1.5 rounded-full animate-bounce"
+          style={{ background: '#C49A3C', opacity: 0.6, animationDelay: `${d}s` }}
         />
       ))}
     </div>

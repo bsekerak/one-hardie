@@ -4,94 +4,123 @@ import { useChat } from 'ai/react';
 import { useCallback, useRef, useState } from 'react';
 
 const GREETING =
-  "Welcome to One Hardie. I'm your Exterior Concierge — here to help you design a complete exterior that looks beautiful and performs better for decades. Whether you're thinking about new siding, a stunning deck, or a covered outdoor room you can use year-round, let's figure out what's right for your home. Where would you like to start?";
+  "Welcome to One Hardie. I'm Hardie, your Exterior Concierge — here to help you design a complete exterior that looks beautiful and performs better for decades. Whether you're thinking about new siding, a stunning deck, or a covered outdoor room you can use year-round, let's figure out what's right for your home. Where would you like to start?";
 
 export function useHardieChat() {
-  const [isSpeaking, setIsSpeaking]       = useState(false);
-  const [ttsAvailable, setTtsAvailable]   = useState(true);
-  // true once the user has clicked something — needed to satisfy browser autoplay policy
+  const [isSpeaking, setIsSpeaking]     = useState(false);
+  const [ttsAvailable, setTtsAvailable] = useState(true);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const speakText = useCallback(
-    async (text: string, { force = false } = {}) => {
-      if (!ttsAvailable)               return;
-      if (!text.trim())                return;
-      // Skip autoplay until the user has interacted with the page,
-      // unless this call is explicitly forced (e.g. from the enable-voice button)
-      if (!audioUnlocked && !force)    return;
+  // useRef so the flag is always current inside any async callback or
+  // stale closure — avoids the classic "onFinish captures old state" bug.
+  const audioUnlockedRef = useRef(false);
+  const audioRef         = useRef<HTMLAudioElement | null>(null);
+
+  const playBlob = useCallback(async (blob: Blob) => {
+    const url   = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    audioRef.current = audio;
+
+    audio.onended = () => {
+      setIsSpeaking(false);
+      URL.revokeObjectURL(url);
+      audioRef.current = null;
+    };
+    audio.onerror = (e) => {
+      console.error('[OneHardie] audio element error:', e);
+      setIsSpeaking(false);
+      URL.revokeObjectURL(url);
+      audioRef.current = null;
+    };
+
+    try {
+      console.log('[OneHardie] audio.play() — blob size:', blob.size, 'type:', blob.type);
+      await audio.play();
+      console.log('[OneHardie] audio.play() succeeded');
+    } catch (err) {
+      console.error('[OneHardie] audio.play() blocked:', err);
+      setIsSpeaking(false);
+    }
+  }, []);
+
+  const fetchAndPlay = useCallback(
+    async (text: string): Promise<boolean> => {
+      if (!text.trim()) return false;
+
+      console.log('[OneHardie] fetchAndPlay — text length:', text.length);
+
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+
+      setIsSpeaking(true);
 
       try {
-        setIsSpeaking(true);
-
-        if (audioRef.current) {
-          audioRef.current.pause();
-          audioRef.current = null;
-        }
-
         const resp = await fetch('/api/tts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text }),
         });
 
+        console.log('[OneHardie] /api/tts status:', resp.status, resp.headers.get('Content-Type'));
+
         if (!resp.ok) {
+          const body = await resp.text();
+          console.error('[OneHardie] /api/tts error:', resp.status, body);
           if (resp.status === 503) setTtsAvailable(false);
           setIsSpeaking(false);
-          return;
+          return false;
         }
 
-        const blob  = await resp.blob();
-        const url   = URL.createObjectURL(blob);
-        const audio = new Audio(url);
-        audioRef.current = audio;
+        const blob = await resp.blob();
+        console.log('[OneHardie] blob received — size:', blob.size, 'type:', blob.type);
 
-        audio.onended = () => {
+        if (blob.size === 0) {
+          console.error('[OneHardie] empty audio blob received');
           setIsSpeaking(false);
-          URL.revokeObjectURL(url);
-          audioRef.current = null;
-        };
-        audio.onerror = () => {
-          setIsSpeaking(false);
-          URL.revokeObjectURL(url);
-          audioRef.current = null;
-        };
+          return false;
+        }
 
-        await audio.play();
+        await playBlob(blob);
+        return true;
       } catch (err) {
-        console.warn('TTS playback error:', err);
+        console.error('[OneHardie] fetchAndPlay error:', err);
         setIsSpeaking(false);
+        return false;
       }
     },
-    [ttsAvailable, audioUnlocked],
+    [playBlob],
   );
 
-  // Called when the user clicks "Enable voice" — counts as a user gesture
-  // so the browser allows the audio.play() that follows.
+  // Called from a button onClick — satisfies browser user-gesture requirement
+  // for audio playback. Plays the greeting immediately.
   const enableVoice = useCallback(async () => {
+    console.log('[OneHardie] enableVoice — setting audioUnlocked = true');
+    audioUnlockedRef.current = true;
     setAudioUnlocked(true);
-    // speakText with force:true bypasses the audioUnlocked guard
-    // (state update is async so audioUnlocked may still be false here)
-    if (!ttsAvailable) return;
-    try {
-      setIsSpeaking(true);
-      const resp = await fetch('/api/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: GREETING }),
-      });
-      if (!resp.ok) { if (resp.status === 503) setTtsAvailable(false); setIsSpeaking(false); return; }
-      const url   = URL.createObjectURL(await resp.blob());
-      const audio = new Audio(url);
-      audioRef.current = audio;
-      audio.onended = () => { setIsSpeaking(false); URL.revokeObjectURL(url); audioRef.current = null; };
-      audio.onerror = () => { setIsSpeaking(false); URL.revokeObjectURL(url); audioRef.current = null; };
-      await audio.play();
-    } catch (err) {
-      console.warn('TTS enable error:', err);
-      setIsSpeaking(false);
+
+    if (!ttsAvailable) {
+      console.warn('[OneHardie] TTS not available (no API key)');
+      return;
     }
-  }, [ttsAvailable]);
+
+    await fetchAndPlay(GREETING);
+  }, [ttsAvailable, fetchAndPlay]);
+
+  // Called from onFinish — reads from ref so it always sees the current value
+  // even if the callback was captured before the user clicked Enable Voice.
+  const speakText = useCallback(
+    async (text: string) => {
+      if (!audioUnlockedRef.current) {
+        console.log('[OneHardie] speakText skipped — audio not yet unlocked');
+        return;
+      }
+      if (!ttsAvailable) return;
+      await fetchAndPlay(text);
+    },
+    [ttsAvailable, fetchAndPlay],
+  );
 
   const stopSpeaking = useCallback(() => {
     audioRef.current?.pause();
@@ -107,6 +136,9 @@ export function useHardieChat() {
         await speakText(message.content);
       }
     },
+    onError: (err) => {
+      console.error('[OneHardie] chat error:', err);
+    },
   });
 
   return {
@@ -114,7 +146,6 @@ export function useHardieChat() {
     isSpeaking,
     ttsAvailable,
     audioUnlocked,
-    speakText,
     enableVoice,
     stopSpeaking,
   };

@@ -1,35 +1,42 @@
 export const runtime = 'edge';
 
-// Strip markdown syntax before sending to TTS so the voice doesn't
-// read out asterisks, hashes, or backticks.
 function cleanForSpeech(text: string): string {
   return text
-    .replace(/```[\s\S]*?```/g, '')    // code blocks
-    .replace(/`[^`]+`/g, '')           // inline code
-    .replace(/#{1,6}\s/g, '')          // headings
-    .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1') // bold/italic
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // links
-    .replace(/^\s*[-*+]\s/gm, '')      // list bullets
-    .replace(/\n{2,}/g, '. ')          // paragraph breaks → pause
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`[^`]+`/g, '')
+    .replace(/#{1,6}\s/g, '')
+    .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/^\s*[-*+]\s/gm, '')
+    .replace(/\n{2,}/g, '. ')
     .replace(/\n/g, ' ')
     .trim();
 }
 
 export async function POST(req: Request) {
   const apiKey = process.env.ELEVENLABS_API_KEY;
+
+  // Explicit env-var check with a clear error message in the response body
   if (!apiKey) {
-    return new Response('ElevenLabs API key not configured', { status: 503 });
+    console.error('[TTS] ELEVENLABS_API_KEY is not set');
+    return new Response(
+      JSON.stringify({ error: 'ELEVENLABS_API_KEY environment variable is not configured' }),
+      { status: 503, headers: { 'Content-Type': 'application/json' } },
+    );
   }
 
-  const { text } = await req.json() as { text: string };
-  if (!text?.trim()) {
-    return new Response('No text provided', { status: 400 });
+  const body = await req.json() as { text?: string };
+  if (!body.text?.trim()) {
+    return new Response(JSON.stringify({ error: 'No text provided' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
-  const voiceId =
-    process.env.ELEVENLABS_VOICE_ID ?? 'EXAVITQu4vr4xnSDxMaL'; // default: Sarah
+  const voiceId = process.env.ELEVENLABS_VOICE_ID ?? 'EXAVITQu4vr4xnSDxMaL'; // Sarah — female, warm
+  const clean   = cleanForSpeech(body.text).slice(0, 2500);
 
-  const clean = cleanForSpeech(text).slice(0, 2500); // ElevenLabs practical limit
+  console.log(`[TTS] Requesting voice="${voiceId}" length=${clean.length}`);
 
   const elevenResp = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`,
@@ -54,15 +61,22 @@ export async function POST(req: Request) {
   );
 
   if (!elevenResp.ok) {
-    const err = await elevenResp.text();
-    console.error('ElevenLabs error:', err);
-    return new Response('TTS generation failed', { status: 502 });
+    const errText = await elevenResp.text();
+    console.error('[TTS] ElevenLabs error:', elevenResp.status, errText);
+    return new Response(
+      JSON.stringify({ error: 'ElevenLabs API error', status: elevenResp.status, detail: errText }),
+      { status: 502, headers: { 'Content-Type': 'application/json' } },
+    );
   }
+
+  console.log('[TTS] ElevenLabs responded OK, streaming audio/mpeg');
 
   return new Response(elevenResp.body, {
     headers: {
       'Content-Type': 'audio/mpeg',
       'Cache-Control': 'no-store',
+      // Surface the voice used so it's visible in browser dev tools
+      'X-Voice-Id': voiceId,
     },
   });
 }
