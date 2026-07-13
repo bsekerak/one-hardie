@@ -78,12 +78,12 @@ function TopNav() {
 
 /* ─── 1. CONCIERGE — dark charcoal + gold, FIRST on page ─── */
 function ConciergeSection(props: ReturnType<typeof useHardieChat>) {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, isSpeaking, ttsAvailable, audioUnlocked, enableVoice, append } = props;
+  const { messages, input, handleInputChange, handleSubmit, isLoading, isSpeaking, ttsAvailable, audioUnlocked, enableVoice, append, debugLog } = props;
   const [started, setStarted] = useState(false);
 
   function handleStart() {
     setStarted(true);
-    if (ttsAvailable) enableVoice();
+    enableVoice();
   }
 
   return (
@@ -204,6 +204,35 @@ function ConciergeSection(props: ReturnType<typeof useHardieChat>) {
               isLoading={isLoading}
               append={append}
             />
+          </div>
+        </div>
+      )}
+
+      {/* ── TTS DEBUG PANEL — remove after audio is confirmed working ── */}
+      {started && (
+        <div className="max-w-7xl mx-auto px-8 pb-6">
+          <div
+            className="rounded-xl p-4 font-mono text-[11px] leading-relaxed"
+            style={{ background: '#0A0A0A', border: '1px solid #2C2A28' }}
+          >
+            <p className="font-bold mb-2" style={{ color: '#C49A3C' }}>🔧 TTS DEBUG LOG</p>
+            {debugLog.length === 0 ? (
+              <p style={{ color: '#555' }}>No events yet…</p>
+            ) : (
+              debugLog.map((line, i) => (
+                <p
+                  key={i}
+                  style={{
+                    color: line.includes('❌') ? '#EF4444'
+                         : line.includes('✅') ? '#4ADE80'
+                         : line.includes('⚠️') ? '#FBBF24'
+                         : '#A89880',
+                  }}
+                >
+                  {line}
+                </p>
+              ))
+            )}
           </div>
         </div>
       )}
