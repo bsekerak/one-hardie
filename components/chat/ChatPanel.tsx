@@ -11,70 +11,47 @@ interface ChatPanelProps {
   handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
-  append: (
-    message: Message | CreateMessage,
-    options?: ChatRequestOptions,
-  ) => Promise<string | null | undefined>;
+  append: (message: Message | CreateMessage, options?: ChatRequestOptions) => Promise<string | null | undefined>;
 }
 
 const QUICK_PROMPTS = [
   'I need new siding for a craftsman home',
   'Show me decking options under $$$',
-  "What is a StruXure pergola?",
-  'Help me match siding + deck colors',
+  'What is a StruXure pergola?',
+  'Help me match siding and deck colors',
 ];
 
-export function ChatPanel({
-  messages,
-  input,
-  handleInputChange,
-  handleSubmit,
-  isLoading,
-  append,
-}: ChatPanelProps) {
+export function ChatPanel({ messages, input, handleInputChange, handleSubmit, isLoading, append }: ChatPanelProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  function onVoiceResult(text: string) {
-    append({ role: 'user', content: text });
-  }
-
-  function onQuickPrompt(prompt: string) {
-    append({ role: 'user', content: prompt });
-  }
-
   return (
     <div className="flex flex-col flex-1 overflow-hidden">
-      {/* Messages scroll area */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
-        {messages.map((m) => (
-          <ChatMessage key={m.id} message={m} />
-        ))}
+      <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4 bg-white">
+        {messages.map((m) => <ChatMessage key={m.id} message={m} />)}
 
-        {/* Streaming indicator */}
         {isLoading && (
           <div className="flex items-start">
-            <div className="bg-brand-surface2 border border-brand-border rounded-2xl rounded-bl-sm px-4 py-3">
+            <div className="bg-brand-surface border border-brand-border-lt rounded-2xl rounded-bl-sm px-4 py-3">
               <ThinkingDots />
             </div>
           </div>
         )}
-
         <div ref={bottomRef} />
       </div>
 
-      {/* Quick-prompt chips — only before first user message */}
+      {/* Quick prompt chips — shown before first user message */}
       {messages.filter((m) => m.role === 'user').length === 0 && (
-        <div className="px-4 pb-2 flex gap-2 flex-wrap">
+        <div className="px-5 pb-3 flex gap-2 flex-wrap border-t border-brand-border-lt bg-white pt-3">
           {QUICK_PROMPTS.map((p) => (
             <button
               key={p}
-              onClick={() => onQuickPrompt(p)}
+              onClick={() => append({ role: 'user', content: p })}
               disabled={isLoading}
-              className="text-xs px-3 py-1.5 rounded-full border border-brand-gold/25 text-brand-muted hover:text-brand-gold hover:border-brand-gold/50 transition-colors disabled:opacity-40"
+              className="text-xs px-3 py-1.5 rounded-full border border-brand-green/30 text-brand-green hover:bg-brand-green-lt font-medium transition-colors disabled:opacity-40"
             >
               {p}
             </button>
@@ -82,13 +59,12 @@ export function ChatPanel({
         </div>
       )}
 
-      {/* Input */}
       <ChatInput
         input={input}
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
         isLoading={isLoading}
-        onVoiceResult={onVoiceResult}
+        onVoiceResult={(text) => append({ role: 'user', content: text })}
       />
     </div>
   );
@@ -100,7 +76,7 @@ function ThinkingDots() {
       {[0, 0.2, 0.4].map((d) => (
         <span
           key={d}
-          className="w-1.5 h-1.5 rounded-full bg-brand-gold/50 animate-bounce"
+          className="w-1.5 h-1.5 rounded-full bg-brand-green/40 animate-bounce"
           style={{ animationDelay: `${d}s` }}
         />
       ))}

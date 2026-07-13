@@ -1,21 +1,17 @@
 export function Logo() {
   return (
     <div className="flex items-center gap-3">
-      {/* Mark */}
       <div
-        className="w-8 h-8 rounded-lg flex items-center justify-center text-brand-bg font-bold text-sm flex-shrink-0"
-        style={{
-          background: 'linear-gradient(135deg, #C49A3C 0%, #E8C56A 50%, #8B6914 100%)',
-        }}
+        className="w-8 h-8 rounded flex items-center justify-center text-white font-bold text-xs flex-shrink-0"
+        style={{ background: 'linear-gradient(135deg, #2D6A2D 0%, #3A7A3A 100%)' }}
       >
         1H
       </div>
-      {/* Wordmark */}
-      <div>
-        <span className="text-brand-text font-semibold tracking-tight leading-none">
+      <div className="leading-none">
+        <span className="text-brand-text font-semibold tracking-tight text-sm">
           One Hardie
         </span>
-        <p className="text-brand-faint text-[10px] tracking-widest uppercase leading-none mt-0.5">
+        <p className="text-brand-faint text-[10px] tracking-widest uppercase mt-0.5">
           Exterior Concierge
         </p>
       </div>

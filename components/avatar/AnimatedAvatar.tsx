@@ -10,111 +10,86 @@ interface AnimatedAvatarProps {
 }
 
 const sizeMap = {
-  sm: { outer: 48, ring: 56 },
-  md: { outer: 100, ring: 120 },
-  lg: { outer: 180, ring: 220 },
+  sm: { outer: 44,  ring: 52  },
+  md: { outer: 90,  ring: 108 },
+  lg: { outer: 160, ring: 196 },
 };
 
-export function AnimatedAvatar({
-  isSpeaking,
-  isThinking,
-  size = 'lg',
-}: AnimatedAvatarProps) {
+export function AnimatedAvatar({ isSpeaking, isThinking, size = 'lg' }: AnimatedAvatarProps) {
   const { outer, ring } = sizeMap[size];
 
   return (
-    <div
-      className="relative flex items-center justify-center"
-      style={{ width: ring, height: ring }}
-    >
-      {/* Ambient glow when speaking */}
+    <div className="relative flex items-center justify-center" style={{ width: ring, height: ring }}>
+      {/* Speaking pulse rings */}
       <AnimatePresence>
-        {isSpeaking && (
-          <>
-            {[0, 0.4, 0.8].map((delay) => (
-              <motion.div
-                key={delay}
-                className="absolute rounded-full border border-brand-gold/30"
-                style={{ width: outer, height: outer }}
-                initial={{ scale: 1, opacity: 0.5 }}
-                animate={{ scale: 2.2, opacity: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{
-                  duration: 1.8,
-                  delay,
-                  repeat: Infinity,
-                  ease: 'easeOut',
-                }}
-              />
-            ))}
-          </>
-        )}
+        {isSpeaking && [0, 0.45, 0.9].map((delay) => (
+          <motion.div
+            key={delay}
+            className="absolute rounded-full border-2 border-brand-green/25"
+            style={{ width: outer, height: outer }}
+            initial={{ scale: 1, opacity: 0.6 }}
+            animate={{ scale: 2, opacity: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.8, delay, repeat: Infinity, ease: 'easeOut' }}
+          />
+        ))}
       </AnimatePresence>
 
-      {/* Thinking ring */}
+      {/* Thinking spinner */}
       {isThinking && !isSpeaking && (
         <motion.div
-          className="absolute rounded-full border-2 border-brand-gold/20 border-t-brand-gold"
-          style={{ width: outer + 12, height: outer + 12 }}
+          className="absolute rounded-full border-2 border-brand-green/15 border-t-brand-green"
+          style={{ width: outer + 10, height: outer + 10 }}
           animate={{ rotate: 360 }}
-          transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 1.1, repeat: Infinity, ease: 'linear' }}
         />
       )}
 
-      {/* Avatar circle */}
+      {/* Avatar disc */}
       <motion.div
         className={clsx(
           'relative rounded-full overflow-hidden flex items-center justify-center select-none',
-          size === 'sm' && 'shadow-md',
-          size !== 'sm' && 'shadow-[0_0_60px_rgba(196,154,60,0.15)]',
+          size !== 'sm' && 'shadow-avatar',
+          size === 'sm' && 'shadow-card',
         )}
         style={{
           width: outer,
           height: outer,
-          background:
-            'radial-gradient(circle at 35% 35%, #2C2418 0%, #181208 60%, #0E0A04 100%)',
-          border: '1px solid rgba(196,154,60,0.25)',
+          background: 'radial-gradient(circle at 35% 30%, #2C2418 0%, #181208 55%, #0E0A04 100%)',
+          border: '2px solid rgba(196,154,60,0.30)',
         }}
         animate={
           isSpeaking
-            ? { scale: [1, 1.02, 1, 1.015, 1] }
-            : { scale: [1, 1.012, 1] }
+            ? { scale: [1, 1.025, 1, 1.015, 1] }
+            : { scale: [1, 1.01, 1] }
         }
         transition={
           isSpeaking
             ? { duration: 0.4, repeat: Infinity, ease: 'easeInOut' }
-            : { duration: 4, repeat: Infinity, ease: 'easeInOut' }
+            : { duration: 4,   repeat: Infinity, ease: 'easeInOut' }
         }
       >
-        {/* Gold gradient overlay */}
+        {/* Subtle gold sheen */}
         <div
           className="absolute inset-0"
           style={{
-            background:
-              'radial-gradient(circle at 30% 25%, rgba(196,154,60,0.08) 0%, transparent 65%)',
+            background: 'radial-gradient(circle at 30% 25%, rgba(196,154,60,0.10) 0%, transparent 60%)',
           }}
         />
 
-        {/* Monogram */}
+        {/* Monogram + wave */}
         {size !== 'sm' ? (
-          <div className="relative z-10 flex flex-col items-center gap-1">
+          <div className="relative z-10 flex flex-col items-center gap-1.5">
             <span
               className="font-bold tracking-widest text-shimmer select-none"
-              style={{ fontSize: size === 'lg' ? 48 : 28 }}
+              style={{ fontSize: size === 'lg' ? 44 : 26 }}
             >
               H
             </span>
-            {size === 'lg' && (
-              <SoundWave isSpeaking={isSpeaking} />
-            )}
+            {size === 'lg' && <SoundWave isSpeaking={isSpeaking} />}
           </div>
         ) : (
-          <span
-            className="text-brand-gold font-bold text-sm"
-            style={{ lineHeight: 1 }}
-          >
-            H
-          </span>
+          <span className="text-[#C49A3C] font-bold text-xs" style={{ lineHeight: 1 }}>H</span>
         )}
       </motion.div>
     </div>
@@ -123,29 +98,20 @@ export function AnimatedAvatar({
 
 function SoundWave({ isSpeaking }: { isSpeaking: boolean }) {
   const bars = [3, 5, 8, 5, 3, 7, 4, 6, 3, 5];
-
   return (
-    <div className="flex items-center gap-[2px] h-5">
+    <div className="flex items-center gap-[2px] h-4">
       {bars.map((h, i) => (
         <motion.div
           key={i}
-          className="w-[2px] rounded-full bg-brand-gold/60"
+          className="w-[2px] rounded-full bg-[#C49A3C]/60"
           animate={
             isSpeaking
-              ? {
-                  height: [h, h * 2.5, h],
-                  opacity: [0.5, 1, 0.5],
-                }
-              : { height: 2, opacity: 0.25 }
+              ? { height: [h, h * 2.8, h], opacity: [0.5, 1, 0.5] }
+              : { height: 2, opacity: 0.2 }
           }
           transition={
             isSpeaking
-              ? {
-                  duration: 0.5 + Math.random() * 0.3,
-                  delay: i * 0.05,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }
+              ? { duration: 0.45 + i * 0.03, delay: i * 0.05, repeat: Infinity, ease: 'easeInOut' }
               : { duration: 0.3 }
           }
           style={{ height: h }}

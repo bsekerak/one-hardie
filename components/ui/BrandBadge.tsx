@@ -1,8 +1,8 @@
 const BRANDS = [
-  { name: 'Hardie®',         color: '#003B8E' },
-  { name: 'AZEK Exteriors®', color: '#2D6A2D' },
-  { name: 'TimberTech®',     color: '#8B4513' },
-  { name: 'StruXure®',       color: '#5A3A8C' },
+  { name: 'Hardie®',         color: '#003B8E', bg: '#EBF0F9' },
+  { name: 'AZEK Exteriors®', color: '#2D6A2D', bg: '#EBF5EB' },
+  { name: 'TimberTech®',     color: '#7A3B10', bg: '#F7EDE5' },
+  { name: 'StruXure®',       color: '#4A2D7A', bg: '#F0EAFA' },
 ];
 
 export function BrandBadges() {
@@ -11,12 +11,8 @@ export function BrandBadges() {
       {BRANDS.map((b) => (
         <span
           key={b.name}
-          className="text-[10px] font-medium px-2 py-1 rounded-full border"
-          style={{
-            color: b.color,
-            borderColor: `${b.color}40`,
-            background: `${b.color}12`,
-          }}
+          className="text-[10px] font-semibold px-2.5 py-1 rounded-full"
+          style={{ color: b.color, background: b.bg }}
         >
           {b.name}
         </span>
