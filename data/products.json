@@ -1,0 +1,300 @@
+{
+  "products": [
+    {
+      "id": "hp-lap-001",
+      "brand": "hardie",
+      "brandName": "Hardie®",
+      "category": "siding",
+      "name": "HardiePlank® Lap Siding",
+      "tagline": "America's #1 brand of siding — fiber cement that lasts decades.",
+      "priceRange": "moderate",
+      "styles": ["traditional", "craftsman", "farmhouse", "coastal", "contemporary", "modern"],
+      "regions": ["all"],
+      "colors": [
+        { "name": "Arctic White",      "hex": "#F4F3EE" },
+        { "name": "Navajo Beige",      "hex": "#C6B79B" },
+        { "name": "Cobblestone",       "hex": "#8B7E6E" },
+        { "name": "Monterey Taupe",    "hex": "#7A6E60" },
+        { "name": "Khaki Brown",       "hex": "#8B7355" },
+        { "name": "Countrylane Red",   "hex": "#922B21" },
+        { "name": "Midnight Black",    "hex": "#1C1C1C" },
+        { "name": "Mountain Sage",     "hex": "#7A9E7E" }
+      ],
+      "keyBenefits": [
+        "30-year non-prorated product warranty",
+        "Class A fire rating — the highest available",
+        "Resists rot, pests, moisture, and impact",
+        "ColorPlus® Technology — baked-on color won't fade for 15+ years",
+        "Engineered for climate: 9 regional formulations"
+      ],
+      "learnMoreUrl": "https://www.jameshardie.com/products/hardieplank-lap-siding"
+    },
+    {
+      "id": "hp-panel-002",
+      "brand": "hardie",
+      "brandName": "Hardie®",
+      "category": "siding",
+      "name": "HardiePanel® Vertical Siding",
+      "tagline": "Bold vertical lines for modern and farmhouse aesthetics.",
+      "priceRange": "moderate",
+      "styles": ["modern", "farmhouse", "contemporary", "industrial"],
+      "regions": ["all"],
+      "colors": [
+        { "name": "Arctic White",      "hex": "#F4F3EE" },
+        { "name": "Midnight Black",    "hex": "#1C1C1C" },
+        { "name": "Aged Pewter",       "hex": "#6B6560" },
+        { "name": "Iron Gray",         "hex": "#4A4A4A" },
+        { "name": "Navajo Beige",      "hex": "#C6B79B" }
+      ],
+      "keyBenefits": [
+        "Pairs seamlessly with HardiePlank for mixed-material facades",
+        "Same Class A fire rating and 30-year warranty",
+        "Smooth or woodgrain texture options",
+        "Ideal for board-and-batten and shiplap looks"
+      ],
+      "learnMoreUrl": "https://www.jameshardie.com/products/hardiepanel-vertical-siding"
+    },
+    {
+      "id": "hp-trim-003",
+      "brand": "hardie",
+      "brandName": "Hardie®",
+      "category": "trim",
+      "name": "HardieTrim® Boards",
+      "tagline": "Crisp, rot-proof trim that frames your siding perfectly.",
+      "priceRange": "moderate",
+      "styles": ["traditional", "craftsman", "farmhouse", "coastal", "contemporary", "modern"],
+      "regions": ["all"],
+      "colors": [
+        { "name": "Arctic White",      "hex": "#F4F3EE" },
+        { "name": "Navajo Beige",      "hex": "#C6B79B" },
+        { "name": "Midnight Black",    "hex": "#1C1C1C" }
+      ],
+      "keyBenefits": [
+        "Won't rot, crack, or split — ever",
+        "ColorPlus® Technology matches siding palette",
+        "Available in 4, 6, 8, and 12-inch widths",
+        "Smooth or woodgrain profiles"
+      ],
+      "learnMoreUrl": "https://www.jameshardie.com/products/hardietrim-boards"
+    },
+    {
+      "id": "azek-trim-001",
+      "brand": "azek",
+      "brandName": "AZEK Exteriors®",
+      "category": "trim",
+      "name": "AZEK® Trim Boards",
+      "tagline": "100% cellular PVC trim — paintable, impervious, perfect.",
+      "priceRange": "premium",
+      "styles": ["traditional", "craftsman", "colonial", "coastal", "modern", "contemporary"],
+      "regions": ["all"],
+      "colors": [
+        { "name": "Paintable White",   "hex": "#F5F5F5" },
+        { "name": "Pre-Primed",        "hex": "#E8E8E8" }
+      ],
+      "keyBenefits": [
+        "100% cellular PVC — never absorbs moisture",
+        "Won't rot, crack, split, or warp",
+        "Paints to any color with standard exterior paint",
+        "Dimensionally stable — stays straight on long runs",
+        "Cortex® hidden fastening for a clean face"
+      ],
+      "learnMoreUrl": "https://www.azek.com/products/trim"
+    },
+    {
+      "id": "azek-bead-002",
+      "brand": "azek",
+      "brandName": "AZEK Exteriors®",
+      "category": "siding",
+      "name": "AZEK® Beadboard Panels",
+      "tagline": "Coastal cottage charm with zero-maintenance PVC.",
+      "priceRange": "premium",
+      "styles": ["coastal", "craftsman", "traditional", "farmhouse"],
+      "regions": ["northeast", "southeast", "pacific", "all"],
+      "colors": [
+        { "name": "Paintable White",   "hex": "#F5F5F5" }
+      ],
+      "keyBenefits": [
+        "Perfect for soffits, porch ceilings, and accent panels",
+        "Resists moisture and salt air — ideal for coastal homes",
+        "Tongue-and-groove installation for fast, clean look",
+        "Pairs seamlessly with AZEK Trim for a full system"
+      ],
+      "learnMoreUrl": "https://www.azek.com/products/porch"
+    },
+    {
+      "id": "tt-azek-deck-001",
+      "brand": "timbertech",
+      "brandName": "TimberTech®",
+      "category": "decking",
+      "name": "AZEK Deck® — Vintage Collection",
+      "tagline": "The deck that never needs staining, sealing, or painting.",
+      "priceRange": "luxury",
+      "styles": ["modern", "contemporary", "coastal", "craftsman", "traditional"],
+      "regions": ["all"],
+      "colors": [
+        { "name": "Weathered Teak",    "hex": "#7A5C3C" },
+        { "name": "Antique Leather",   "hex": "#6B4A2A" },
+        { "name": "Mahogany",          "hex": "#6B2E1F" },
+        { "name": "Coastline",         "hex": "#8E8278" },
+        { "name": "Slate Gray",        "hex": "#5A5A5A" },
+        { "name": "White Sand",        "hex": "#D4CFC7" }
+      ],
+      "keyBenefits": [
+        "30-year fade and stain warranty — guaranteed",
+        "100% capped PVC — waterproof to the core",
+        "Multi-tonal woodgrain that looks like real wood",
+        "Stays 30°F cooler than uncapped composite",
+        "Splinter-free, slip-resistant surface"
+      ],
+      "learnMoreUrl": "https://www.timbertech.com/azek-deck"
+    },
+    {
+      "id": "tt-pro-002",
+      "brand": "timbertech",
+      "brandName": "TimberTech®",
+      "category": "decking",
+      "name": "TimberTech PRO® Legacy Collection",
+      "tagline": "Capped composite that looks like weathered hardwood.",
+      "priceRange": "premium",
+      "styles": ["traditional", "craftsman", "farmhouse", "coastal"],
+      "regions": ["all"],
+      "colors": [
+        { "name": "Pecan",            "hex": "#8B6340" },
+        { "name": "Tigerwood",        "hex": "#7A4A1E" },
+        { "name": "Espresso",         "hex": "#3A2010" },
+        { "name": "Sandy Birch",      "hex": "#C4A882" },
+        { "name": "Silvered Mahogany","hex": "#7A6458" }
+      ],
+      "keyBenefits": [
+        "25-year fade and stain warranty",
+        "Capped composite — durable, low-maintenance",
+        "Rich, variegated woodgrain pattern",
+        "Coordinates with TimberTech railing systems"
+      ],
+      "learnMoreUrl": "https://www.timbertech.com/timbertech-pro"
+    },
+    {
+      "id": "tt-rail-001",
+      "brand": "timbertech",
+      "brandName": "TimberTech®",
+      "category": "railing",
+      "name": "Radiance Rail® Express",
+      "tagline": "Clean aluminum railing with integrated LED lighting.",
+      "priceRange": "premium",
+      "styles": ["modern", "contemporary", "coastal", "craftsman", "traditional"],
+      "regions": ["all"],
+      "colors": [
+        { "name": "White",            "hex": "#F5F5F5" },
+        { "name": "Black",            "hex": "#1A1A1A" },
+        { "name": "Bronze",           "hex": "#6B4226" },
+        { "name": "Driftwood",        "hex": "#8B7B6B" }
+      ],
+      "keyBenefits": [
+        "Aluminum — never rots, warps, or needs painting",
+        "Integrated LED DeckLights™ available",
+        "Low-profile top rail for unobstructed views",
+        "Glass panel insert option for coastal and modern",
+        "Lifetime limited warranty on aluminum components"
+      ],
+      "learnMoreUrl": "https://www.timbertech.com/railing"
+    },
+    {
+      "id": "tt-light-001",
+      "brand": "timbertech",
+      "brandName": "TimberTech®",
+      "category": "lighting",
+      "name": "DeckLights™ Lighting System",
+      "tagline": "Integrated LED lighting that transforms your deck at night.",
+      "priceRange": "moderate",
+      "styles": ["modern", "contemporary", "craftsman", "coastal", "traditional"],
+      "regions": ["all"],
+      "colors": [
+        { "name": "Warm White 2700K", "hex": "#FFD700" },
+        { "name": "Cool White 4000K", "hex": "#E0E8FF" }
+      ],
+      "keyBenefits": [
+        "Post cap, deck board, stair riser, and in-rail options",
+        "Low-voltage LED — safe, energy-efficient",
+        "Creates outdoor rooms that extend into the evening",
+        "Weathers all climates without corrosion"
+      ],
+      "learnMoreUrl": "https://www.timbertech.com/lighting"
+    },
+    {
+      "id": "sx-pergola-001",
+      "brand": "struxure",
+      "brandName": "StruXure®",
+      "category": "pergola",
+      "name": "Pergola X® — Motorized Louvered Roof",
+      "tagline": "An outdoor room that opens, closes, and adapts to any weather.",
+      "priceRange": "luxury",
+      "styles": ["modern", "contemporary", "craftsman", "traditional", "coastal"],
+      "regions": ["all"],
+      "colors": [
+        { "name": "Matte Black",      "hex": "#1A1A1A" },
+        { "name": "Matte White",      "hex": "#F0EDE8" },
+        { "name": "Silver",           "hex": "#A0A0A0" },
+        { "name": "Bronze",           "hex": "#6B4226" },
+        { "name": "Custom RAL",       "hex": "#8B6914" }
+      ],
+      "keyBenefits": [
+        "Motorized aluminum louvers — open/close with a tap",
+        "Built-in gutters: rain runs off, not down on you",
+        "Integrated LED lighting, fans, heaters, speakers",
+        "Retractable screens for bugs and privacy",
+        "Powder-coated aluminum — zero maintenance, no rust"
+      ],
+      "learnMoreUrl": "https://struxure.com/products/pergola-x"
+    },
+    {
+      "id": "sx-cabana-002",
+      "brand": "struxure",
+      "brandName": "StruXure®",
+      "category": "pergola",
+      "name": "Cabana X® — Outdoor Enclosure",
+      "tagline": "A semi-enclosed outdoor room for year-round living.",
+      "priceRange": "luxury",
+      "styles": ["modern", "contemporary", "coastal"],
+      "regions": ["all"],
+      "colors": [
+        { "name": "Matte Black",      "hex": "#1A1A1A" },
+        { "name": "Matte White",      "hex": "#F0EDE8" },
+        { "name": "Bronze",           "hex": "#6B4226" }
+      ],
+      "keyBenefits": [
+        "Three solid walls + motorized louvered roof",
+        "Weather-tight: use it rain, wind, or shine",
+        "Full AV integration — outdoor theater or office",
+        "Adds true square footage to your outdoor living space",
+        "Custom-sized to any footprint"
+      ],
+      "learnMoreUrl": "https://struxure.com/products/cabana-x"
+    }
+  ],
+  "inspirationProjects": [
+    {
+      "id": "ip-001",
+      "title": "Modern Coastal Transformation",
+      "style": "coastal",
+      "region": "southeast",
+      "description": "White HardiePlank lap siding with AZEK trim, TimberTech Coastline deck, and a Pergola X in Matte Black.",
+      "products": ["hp-lap-001", "azek-trim-001", "tt-azek-deck-001", "sx-pergola-001"]
+    },
+    {
+      "id": "ip-002",
+      "title": "Dark & Dramatic Farmhouse",
+      "style": "farmhouse",
+      "region": "midwest",
+      "description": "Midnight Black HardiePanel vertical siding with white HardieTrim, Weathered Teak deck, and Matte Black Pergola X.",
+      "products": ["hp-panel-002", "hp-trim-003", "tt-azek-deck-001", "sx-pergola-001"]
+    },
+    {
+      "id": "ip-003",
+      "title": "Classic Craftsman Revival",
+      "style": "craftsman",
+      "region": "pacific",
+      "description": "Cobblestone HardiePlank with AZEK trim in white, TimberTech PRO Legacy Pecan deck, Radiance Rail in Bronze.",
+      "products": ["hp-lap-001", "azek-trim-001", "tt-pro-002", "tt-rail-001"]
+    }
+  ]
+}
