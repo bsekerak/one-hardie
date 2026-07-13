@@ -48,13 +48,6 @@ const VALUE_PROPS = [
   { icon: CheckCircle, heading: 'The brands pros count on',  body: 'For decades, contractors and homeowners have relied on our brands for premium design and long-lasting performance.' },
 ];
 
-const CALLOUTS = [
-  { label: 'AZEK® Trim',                    left: '36%', top: '54%' },
-  { label: 'TimberTech® Decking & Railing', left: '52%', top: '64%' },
-  { label: 'Hardie Plank',                  left: '72%', top: '28%' },
-  { label: 'StruXure Pergola X',            left: '80%', top: '48%' },
-];
-
 /* ─── Shared nav ─── */
 function TopNav() {
   return (
@@ -223,44 +216,13 @@ function HeroSection() {
   return (
     <section className="relative flex-shrink-0 h-[500px] lg:h-[580px] overflow-hidden">
       <Image src={HERO_IMAGE} alt="Home exterior" fill sizes="100vw" className="object-cover object-center" priority />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-
-      <div className="relative z-10 h-full flex flex-col justify-between p-6 lg:p-10">
-        <div className="max-w-md">
-          <div className="flex items-center gap-2 mb-5">
-            <div className="w-10 h-10 bg-[#2D6A2D] rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xs">JH</span>
-            </div>
-            <span className="text-white font-bold text-sm tracking-wide">JamesHardie™</span>
-          </div>
-          <h2 className="text-white font-bold text-4xl lg:text-5xl leading-tight drop-shadow-md">
-            The home of<br />resilient beauty™
-          </h2>
-          <div className="flex items-center gap-3 mt-5 flex-wrap">
-            {[{ name: 'Hardie', color: '#E8490F' }, { name: 'TimberTech', color: '#D4A04A' }, { name: 'AZEK', color: '#6BB0D4' }, { name: 'STRUXURE', color: '#FFFFFF' }]
-              .map((b, i, arr) => (
-                <span key={b.name} className="flex items-center gap-3">
-                  <span className="font-bold text-sm" style={{ color: b.color }}>{b.name}</span>
-                  {i < arr.length - 1 && <span className="text-white/30">|</span>}
-                </span>
-              ))}
-          </div>
-        </div>
-        <div className="flex gap-3 justify-end">
+      {/* Subtle vignette only — the image already contains text and callout circles */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+      <div className="relative z-10 h-full flex items-end justify-end p-6 lg:p-10">
+        <div className="flex gap-3">
           <button className="bg-[#2D6A2D] text-white font-semibold text-sm px-5 py-2.5 rounded hover:bg-[#1B4D1B] transition-colors">Get a quote</button>
-          <button className="bg-gray-900 text-white font-semibold text-sm px-5 py-2.5 rounded hover:bg-gray-700 transition-colors">Explore our brands</button>
+          <button className="bg-gray-900/90 text-white font-semibold text-sm px-5 py-2.5 rounded hover:bg-gray-700 transition-colors">Explore our brands</button>
         </div>
-      </div>
-
-      <div className="hidden lg:block">
-        {CALLOUTS.map(({ label, left, top }) => (
-          <div key={label} className="absolute z-20 -translate-x-1/2 -translate-y-1/2" style={{ left, top }}>
-            <div className="w-24 h-24 rounded-full border-2 border-white/70 bg-black/25 backdrop-blur-[2px] flex items-center justify-center">
-              <span className="text-white text-[11px] font-semibold text-center leading-tight px-2">{label}</span>
-            </div>
-          </div>
-        ))}
       </div>
     </section>
   );
