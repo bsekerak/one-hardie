@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     });
   }
 
-  const voiceId = process.env.ELEVENLABS_VOICE_ID ?? 'M7ya1YbaeFaPXljg9BpK';
+  const voiceId = process.env.ELEVENLABS_VOICE_ID ?? 'EXAVITQu4vr4xnSDxMaL'; // Sarah — ElevenLabs pre-made, free tier
   const clean   = cleanForSpeech(body.text).slice(0, 2500);
 
   console.log(`[TTS] Requesting voice="${voiceId}" length=${clean.length}`);
