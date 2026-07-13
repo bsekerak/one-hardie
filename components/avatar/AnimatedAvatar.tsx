@@ -10,10 +10,7 @@ interface AnimatedAvatarProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
-// Photorealistic professional woman — AI-generated portrait (no real person)
-// Swap AVATAR_URL to any publicly hosted square headshot to update the look.
-const AVATAR_URL =
-  'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=faces&auto=format&q=80';
+const AVATAR_URL = '/hardei-avatar.png';
 
 const sizeMap = {
   sm: { px: 44,  ring: 56  },
