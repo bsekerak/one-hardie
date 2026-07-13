@@ -10,7 +10,8 @@ interface AnimatedAvatarProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
-const AVATAR_URL = '/hardei-avatar.png';
+const AVATAR_URL =
+  'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=faces&auto=format&q=80';
 
 const sizeMap = {
   sm: { px: 44,  ring: 56  },
