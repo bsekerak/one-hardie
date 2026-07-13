@@ -190,8 +190,12 @@ function ConciergeSection(props: ReturnType<typeof useHardieChat>) {
                 {isSpeaking ? 'Speaking…' : isLoading ? 'Thinking…' : 'Ready'}
               </div>
               {audioUnlocked && (
-                <p style={{ color: '#6B5E52' }} className="text-[10px] mt-2 flex items-center gap-1 justify-center">
-                  <Volume2 className="w-3 h-3" style={{ color: '#C49A3C' }} /> Voice on
+                <p
+                  style={{ color: ttsAvailable ? '#6B5E52' : '#EF4444' }}
+                  className="text-[10px] mt-2 flex items-center gap-1 justify-center"
+                >
+                  <Volume2 className="w-3 h-3" style={{ color: ttsAvailable ? '#C49A3C' : '#EF4444' }} />
+                  {ttsAvailable ? 'Voice on' : 'Voice unavailable — check API key'}
                 </p>
               )}
             </div>
@@ -218,7 +222,7 @@ function ConciergeSection(props: ReturnType<typeof useHardieChat>) {
 function HeroSection() {
   return (
     <section className="relative flex-shrink-0 h-[500px] lg:h-[580px] overflow-hidden">
-      <Image src={HERO_IMAGE} alt="Home exterior" fill className="object-cover object-center" priority={false} />
+      <Image src={HERO_IMAGE} alt="Home exterior" fill sizes="100vw" className="object-cover object-center" priority />
       <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
 
