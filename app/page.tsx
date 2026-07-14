@@ -99,8 +99,10 @@ function ConciergeSection(props: ReturnType<typeof useHardieChat>) {
       ref={sectionRef}
       style={{
         background: '#111111',
-        // Fill the viewport once chat starts so the hero image below stays out of view
-        minHeight: started ? 'calc(100dvh - 57px)' : undefined,
+        // Fixed height (not min-height) once started so section can't grow and
+        // push the page down — chat scrolls internally within this container
+        height: started ? 'calc(100dvh - 57px)' : undefined,
+        overflow: started ? 'hidden' : undefined,
       }}
       className="flex flex-col"
     >
@@ -168,7 +170,7 @@ function ConciergeSection(props: ReturnType<typeof useHardieChat>) {
         </div>
       ) : (
         /* ── Post-start ── */
-        <div className="flex flex-col flex-1" style={{ borderTop: '1px solid #2C2A28' }}>
+        <div className="flex flex-col flex-1 overflow-hidden" style={{ borderTop: '1px solid #2C2A28' }}>
 
           {/* Mobile: compact top bar */}
           <div
