@@ -78,7 +78,7 @@ function TopNav() {
 
 /* ─── 1. CONCIERGE ─── */
 function ConciergeSection(props: ReturnType<typeof useHardieChat>) {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, isSpeaking, ttsAvailable, audioUnlocked, enableVoice, append, debugLog } = props;
+  const { messages, input, handleInputChange, handleSubmit, isLoading, isSpeaking, ttsAvailable, audioUnlocked, enableVoice, append } = props;
   const [started, setStarted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -266,19 +266,6 @@ function ConciergeSection(props: ReturnType<typeof useHardieChat>) {
         </div>
       )}
 
-      {/* TTS DEBUG PANEL */}
-      {started && debugLog.length > 0 && (
-        <div className="px-4 md:px-8 pb-4 max-w-7xl mx-auto w-full">
-          <div className="rounded-xl p-3 font-mono text-[11px] leading-relaxed" style={{ background: '#0A0A0A', border: '1px solid #2C2A28' }}>
-            <p className="font-bold mb-1.5" style={{ color: '#C49A3C' }}>🔧 TTS DEBUG</p>
-            {debugLog.map((line, i) => (
-              <p key={i} style={{ color: line.includes('❌') ? '#EF4444' : line.includes('✅') ? '#4ADE80' : line.includes('⚠️') ? '#FBBF24' : '#A89880' }}>
-                {line}
-              </p>
-            ))}
-          </div>
-        </div>
-      )}
     </section>
   );
 }
