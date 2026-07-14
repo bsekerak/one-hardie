@@ -10,7 +10,8 @@ interface AnimatedAvatarProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
-const AVATAR_URL = '/Gemini_Generated_Image_exix9gexix9gexix.png';
+const AVATAR_URL =
+  'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=faces&auto=format&q=80';
 
 const sizeMap = {
   sm: { px: 44,  ring: 56  },
@@ -84,7 +85,7 @@ export function AnimatedAvatar({ isSpeaking, isThinking, size = 'lg' }: Animated
             src={AVATAR_URL}
             alt="Hardie, One Hardie Exterior Concierge"
             fill
-            className="object-cover object-center"
+            className="object-cover object-top"
             sizes={`${px}px`}
             priority={size === 'lg'}
           />
