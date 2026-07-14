@@ -8,6 +8,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'www.timbertech.com' },
       { protocol: 'https', hostname: 'www.azek.com' },
       { protocol: 'https', hostname: 'www.struxure.com' },
+      { protocol: 'https', hostname: 'struxure.com' },
     ],
   },
 };

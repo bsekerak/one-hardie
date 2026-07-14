@@ -8,6 +8,7 @@
       "name": "HardiePlank® Lap Siding",
       "tagline": "America's #1 brand of siding — fiber cement that lasts decades.",
       "priceRange": "moderate",
+      "imageUrl": "https://images.ctfassets.net/dzi2asncd44t/1MRmRjpjKa60BuCi9AKSi9/154190ebde2eae7d0edb8818006b3861/house-with-couple-hardie-plank-deep-ocean.jpg",
       "styles": ["traditional", "craftsman", "farmhouse", "coastal", "contemporary", "modern"],
       "regions": ["all"],
       "colors": [
@@ -37,6 +38,7 @@
       "name": "HardiePanel® Vertical Siding",
       "tagline": "Bold vertical lines for modern and farmhouse aesthetics.",
       "priceRange": "moderate",
+      "imageUrl": "https://images.ctfassets.net/dzi2asncd44t/7DDE4Tm5qhv4q2XR9SOX4k/196f771d067ebe931cd044019906e86b/mother-daughter-modern-house-hardie-plank-panel.jpg",
       "styles": ["modern", "farmhouse", "contemporary", "industrial"],
       "regions": ["all"],
       "colors": [
@@ -62,6 +64,7 @@
       "name": "HardieTrim® Boards",
       "tagline": "Crisp, rot-proof trim that frames your siding perfectly.",
       "priceRange": "moderate",
+      "imageUrl": "https://images.ctfassets.net/dzi2asncd44t/yfQkVYQUCAAAm1mCPrK5V/2b455a6cec794ec8c17873dc3ada2778/hardie-plank-contractors.jpg",
       "styles": ["traditional", "craftsman", "farmhouse", "coastal", "contemporary", "modern"],
       "regions": ["all"],
       "colors": [
@@ -228,6 +231,7 @@
       "name": "Pergola X® — Motorized Louvered Roof",
       "tagline": "An outdoor room that opens, closes, and adapts to any weather.",
       "priceRange": "luxury",
+      "imageUrl": "https://struxure.com/wp-content/uploads/2025/06/strx-pergolax-story-3.jpg",
       "styles": ["modern", "contemporary", "craftsman", "traditional", "coastal"],
       "regions": ["all"],
       "colors": [
@@ -244,7 +248,7 @@
         "Retractable screens for bugs and privacy",
         "Powder-coated aluminum — zero maintenance, no rust"
       ],
-      "learnMoreUrl": "https://struxure.com/products/pergola-x"
+      "learnMoreUrl": "https://struxure.com/products/pergola-x/"
     },
     {
       "id": "sx-cabana-002",
@@ -254,6 +258,7 @@
       "name": "Cabana X® — Outdoor Enclosure",
       "tagline": "A semi-enclosed outdoor room for year-round living.",
       "priceRange": "luxury",
+      "imageUrl": "https://struxure.com/wp-content/uploads/2025/09/Cabana-boxes-B.jpg",
       "styles": ["modern", "contemporary", "coastal"],
       "regions": ["all"],
       "colors": [
@@ -268,7 +273,7 @@
         "Adds true square footage to your outdoor living space",
         "Custom-sized to any footprint"
       ],
-      "learnMoreUrl": "https://struxure.com/products/cabana-x"
+      "learnMoreUrl": "https://struxure.com/products/cabana-x/"
     }
   ],
   "inspirationProjects": [

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { ExternalLink } from 'lucide-react';
 import { clsx } from 'clsx';
 
@@ -12,6 +13,7 @@ interface ProductCardData {
   name: string;
   tagline: string;
   priceRange: string;
+  imageUrl?: string;
   colors: Color[];
   keyBenefits: string[];
   learnMoreUrl: string;
@@ -38,20 +40,43 @@ export function ProductCard({ product }: { product: ProductCardData }) {
       'overflow-hidden w-full max-w-[280px] flex-shrink-0',
       'hover:shadow-md transition-shadow duration-200',
     )}>
-      {/* Brand colour bar */}
-      <div className="h-1" style={{ background: accent.bar }} />
+      {/* Product image or brand colour bar */}
+      {product.imageUrl ? (
+        <div className="relative w-full h-36 overflow-hidden">
+          <Image
+            src={product.imageUrl}
+            alt={product.name}
+            fill
+            sizes="280px"
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+          <div className="absolute bottom-2 left-3">
+            <span
+              className="text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded-full"
+              style={{ background: accent.bar, color: '#fff' }}
+            >
+              {product.brand}
+            </span>
+          </div>
+        </div>
+      ) : (
+        <div className="h-1" style={{ background: accent.bar }} />
+      )}
 
       <div className="p-4 flex flex-col gap-3">
         {/* Header */}
         <div className="flex items-start justify-between gap-2">
           <div>
-            <span
-              className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full"
-              style={{ background: accent.badge, color: accent.text }}
-            >
-              {product.brand}
-            </span>
-            <p className="text-brand-text font-semibold text-sm leading-tight mt-1.5">
+            {!product.imageUrl && (
+              <span
+                className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full"
+                style={{ background: accent.badge, color: accent.text }}
+              >
+                {product.brand}
+              </span>
+            )}
+            <p className={clsx('text-brand-text font-semibold text-sm leading-tight', !product.imageUrl && 'mt-1.5')}>
               {product.name}
             </p>
           </div>

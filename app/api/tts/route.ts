@@ -10,6 +10,8 @@ function cleanForSpeech(text: string): string {
     .replace(/^\s*[-*+]\s/gm, '')
     .replace(/\n{2,}/g, '. ')
     .replace(/\n/g, ' ')
+    // Phonetic pronunciation: "Stru-X-ure" causes ElevenLabs to say stru · eks · ure
+    .replace(/StruXure/gi, 'Stru-X-ure')
     .trim();
 }
 
